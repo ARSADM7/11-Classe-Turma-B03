@@ -1,559 +1,565 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal Turma B03</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:'Inter',sans-serif;
+        }
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+        /* LOGIN */
+        #loginPage{
+            height:100vh;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            background: linear-gradient(rgba(10,10,20,0.7),rgba(10,10,20,0.7)), url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSud81mtDVOpBij4adouc5vkCdQZbhhQ6lcsg&s");
+            background-size:cover;
+            background-position:center;
+            color:white;
+        }
 
-<title>Portal Turma B03</title>
+        .login-box{
+            background:rgba(255,255,255,0.08);
+            padding:30px;
+            border-radius:14px;
+            width:320px;
+            text-align:center;
+            backdrop-filter:blur(8px);
+        }
 
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+        .login-box input{
+            width:100%;
+            padding:10px;
+            margin:8px 0;
+            border:none;
+            border-radius:8px;
+        }
 
-<style>
+        .login-box button{
+            width:100%;
+            padding:10px;
+            border:none;
+            border-radius:8px;
+            background:#2563eb;
+            color:white;
+            font-weight:600;
+            cursor:pointer;
+        }
 
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:'Inter',sans-serif;
-}
+        /* BIBLIOTECA */
+        #bibliotecaPage{
+            display:none;
+            background:#f1f5f9;
+            color:#111827;
+            padding-top:70px;
+        }
 
-/* LOGIN */
+        /* NAVBAR */
+        nav{
+            position:fixed;
+            top:0;
+            left:0;
+            right:0;
+            background:white;
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            padding:14px 18px;
+            box-shadow:0 3px 10px rgba(0,0,0,0.08);
+            z-index:1000;
+        }
 
-#loginPage{
-height:100vh;
-display:flex;
-justify-content:center;
-align-items:center;
-background:
-linear-gradient(rgba(10,10,20,0.7),rgba(10,10,20,0.7)),
-url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSud81mtDVOpBij4adouc5vkCdQZbhhQ6lcsg&s");
-background-size:cover;
-background-position:center;
-color:white;
-}
+        .logo{
+            font-weight:700;
+            font-size:18px;
+        }
 
-.login-box{
-background:rgba(255,255,255,0.08);
-padding:30px;
-border-radius:14px;
-width:320px;
-text-align:center;
-backdrop-filter:blur(8px);
-}
+        .nav-actions{
+            display:flex;
+            gap:10px;
+            align-items:center;
+        }
 
-.login-box input{
-width:100%;
-padding:10px;
-margin:8px 0;
-border:none;
-border-radius:8px;
-}
+        .nav-actions button{
+            padding:6px 12px;
+            border:none;
+            border-radius:6px;
+            cursor:pointer;
+            background:#2563eb;
+            color:white;
+        }
 
-.login-box button{
-width:100%;
-padding:10px;
-border:none;
-border-radius:8px;
-background:#2563eb;
-color:white;
-font-weight:600;
-cursor:pointer;
-}
+        /* HERO */
+        .hero{
+            text-align:center;
+            margin-bottom:20px;
+        }
 
+        .hero input{
+            width:100%;
+            max-width:400px;
+            padding:10px;
+            border-radius:10px;
+            border:1px solid #cbd5e1;
+        }
 
-/* BIBLIOTECA */
+        /* GRID */
+        .books-grid{
+            display:grid;
+            grid-template-columns:repeat(auto-fill,minmax(150px,1fr));
+            gap:14px;
+            padding:20px 16px 30px;
+        }
 
-#bibliotecaPage{
-display:none;
-background:#f1f5f9;
-color:#111827;
-padding-top:70px;
-}
+        /* CARD */
+        .book-card{
+            background:white;
+            border-radius:12px;
+            overflow:hidden;
+            box-shadow:0 4px 10px rgba(0,0,0,0.08);
+            cursor:pointer;
+        }
 
-/* NAVBAR */
+        .book-card img{
+            width:100%;
+            height:200px;
+            object-fit:cover;
+        }
 
-nav{
-position:fixed;
-top:0;
-left:0;
-right:0;
-background:white;
-display:flex;
-justify-content:space-between;
-align-items:center;
-padding:14px 18px;
-box-shadow:0 3px 10px rgba(0,0,0,0.08);
-z-index:1000;
-}
+        .book-info{
+            padding:8px;
+        }
 
-.logo{
-font-weight:700;
-font-size:18px;
-}
+        /* MODAL */
+        .modal-overlay{
+            position:fixed;
+            top:0;
+            left:0;
+            right:0;
+            bottom:0;
+            background:rgba(0,0,0,0.7);
+            display:none;
+            justify-content:center;
+            align-items:center;
+            z-index:2000;
+        }
 
-.nav-actions{
-display:flex;
-gap:10px;
-align-items:center;
-}
+        .modal-overlay.active{
+            display:flex;
+        }
 
-.nav-actions button{
-padding:6px 12px;
-border:none;
-border-radius:6px;
-cursor:pointer;
-background:#2563eb;
-color:white;
-}
+        .modal{
+            width:90%;
+            max-width:500px;
+            border-radius:16px;
+            background:white;
+            padding:25px;
+            position:relative;
+            text-align: center;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
 
-/* HERO */
+        .modal-img {
+            width: 150px;
+            height: 210px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
 
-.hero{
-text-align:center;
-margin-bottom:20px;
-}
+        .modal-buttons{
+            display:flex;
+            flex-direction: column;
+            gap:10px;
+            margin-top:20px;
+        }
 
-.hero input{
-width:100%;
-max-width:400px;
-padding:10px;
-border-radius:10px;
-border:1px solid #cbd5e1;
-}
+        .btn-download, .btn-action{
+            width: 100%;
+            padding:12px;
+            text-align:center;
+            border-radius:8px;
+            color:white;
+            text-decoration:none;
+            display:inline-block;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+        }
 
-/* GRID */
+        .btn-download { background:#16a34a; }
+        .btn-blue { background:#2563eb; }
+        .btn-whatsapp { background:#075e54; }
 
-.books-grid{
-display:grid;
-grid-template-columns:repeat(auto-fill,minmax(150px,1fr));
-gap:14px;
-padding:20px 16px 30px;
-}
+        .close{
+            position:absolute;
+            top:10px;
+            right:15px;
+            font-size:22px;
+            cursor:pointer;
+        }
 
-/* CARD */
+        /* FOOTER */
+        footer{
+            background:#035555;
+            color:white;
+            padding:50px 20px;
+            margin-top:40px;
+        }
 
-.book-card{
-background:white;
-border-radius:12px;
-overflow:hidden;
-box-shadow:0 4px 10px rgba(0,0,0,0.08);
-cursor:pointer;
-}
+        .footer-container{
+            max-width:1200px;
+            margin:auto;
+            display:grid;
+            grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+            gap:30px;
+        }
 
-.book-card img{
-width:100%;
-height:200px;
-object-fit:cover;
-}
+        .footer-title{
+            font-weight:700;
+            margin-bottom:10px;
+        }
 
-.book-info{
-padding:8px;
-}
+        .footer-links a, .footer-links span{
+            display:block;
+            color:#cbd5f5;
+            text-decoration:none;
+            margin:6px 0;
+            font-size:14px;
+            cursor: pointer;
+        }
 
-/* MODAL */
+        .footer-links a:hover, .footer-links span:hover{
+            color:white;
+        }
 
-.modal-overlay{
-position:fixed;
-top:0;
-left:0;
-right:0;
-bottom:0;
-background:rgba(0,0,0,0.7);
-display:none;
-justify-content:center;
-align-items:center;
-z-index:2000;
-}
-
-.modal-overlay.active{
-display:flex;
-}
-
-.modal{
-width:90%;
-max-width:500px;
-border-radius:16px;
-background:white;
-padding:20px;
-position:relative;
-text-align: center;
-}
-
-.modal-img {
-width: 150px;
-height: 210px;
-object-fit: cover;
-border-radius: 8px;
-margin-bottom: 15px;
-box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-}
-
-.modal-buttons{
-display:flex;
-gap:10px;
-margin-top:20px;
-}
-
-.btn-download{
-flex:1;
-background:#16a34a;
-padding:12px;
-text-align:center;
-border-radius:8px;
-color:white;
-text-decoration:none;
-display:inline-block;
-font-weight: 600;
-}
-
-.close{
-position:absolute;
-top:10px;
-right:15px;
-font-size:22px;
-cursor:pointer;
-}
-
-/* FOOTER PROFISSIONAL */
-
-footer{
-background:#035555;
-color:white;
-padding:50px 20px;
-margin-top:40px;
-}
-
-.footer-container{
-max-width:1200px;
-margin:auto;
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
-gap:30px;
-}
-
-.footer-title{
-font-weight:700;
-margin-bottom:10px;
-}
-
-.footer-links a, .footer-links span{
-display:block;
-color:#cbd5f5;
-text-decoration:none;
-margin:6px 0;
-font-size:14px;
-cursor: pointer;
-}
-
-.footer-links a:hover, .footer-links span:hover{
-color:white;
-}
-
-.footer-bottom{
-text-align:center;
-margin-top:30px;
-font-size:13px;
-color:#94a3b8;
-}
-
-</style>
+        .footer-bottom{
+            text-align:center;
+            margin-top:30px;
+            font-size:13px;
+            color:#94a3b8;
+        }
+    </style>
 </head>
-
 <body>
 
 <div id="loginPage">
-<div class="login-box">
-
-<h1>Turma B03</h1>
-
-<form id="loginForm">
-<input type="text" id="usuario" placeholder="Usuário" required>
-<input type="password" id="senha" placeholder="Senha" required>
-<button type="submit">Entrar</button>
-</form>
-
-</div>
+    <div class="login-box">
+        <h1>Turma B03</h1>
+        <form id="loginForm">
+            <input type="text" id="usuario" placeholder="Usuário" required>
+            <input type="password" id="senha" placeholder="Senha" required>
+            <button type="submit">Entrar</button>
+        </form>
+    </div>
 </div>
 
 <div id="bibliotecaPage">
+    <nav>
+        <div class="logo">B03 Biblioteca</div>
+        <div class="nav-actions">
+            <button id="logoutBtn">Logout</button>
+        </div>
+    </nav>
 
-<nav>
-<div class="logo">B03 Biblioteca</div>
-<div class="nav-actions">
-<button id="logoutBtn">Logout</button>
-</div>
-</nav>
+    <div class="hero">
+        <h1>Biblioteca Digital B03</h1>
+        <input type="text" id="searchInput" placeholder="Buscar livros...">
+    </div>
 
-<div class="hero">
-<h1>Biblioteca Digital B03</h1>
-<input type="text" id="searchInput" placeholder="Buscar livros...">
-</div>
+    <div class="books-grid" id="booksGrid"></div>
 
-<div class="books-grid" id="booksGrid"></div>
-
-<div class="modal-overlay" id="modalOverlay">
-
-<div class="modal">
-
-<span class="close" id="modalClose">×</span>
-
-<img id="modalCover" class="modal-img" src="" alt="Capa do livro">
-
-<h2 id="modalTitle"></h2>
-
-<p><b>Autor:</b> <span id="modalAuthor"></span></p>
-<p><b>Categoria:</b> <span id="modalCategory"></span></p>
-<p id="modalDesc" style="margin-top:10px; font-size: 14px; color: #4b5563;"></p>
-
-<div class="modal-buttons">
-<a id="modalDownload" class="btn-download" download>Baixar PDF</a>
-</div>
-
-</div>
-
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal">
+            <span class="close" id="modalClose">×</span>
+            <img id="modalCover" class="modal-img" src="" alt="Capa do livro">
+            <h2 id="modalTitle"></h2>
+            <p id="modalSubInfo" style="margin-bottom: 10px; font-size: 14px;"></p>
+            <div id="modalDesc" style="text-align: left; font-size: 14px; color: #4b5563; line-height: 1.6;"></div>
+            <div class="modal-buttons" id="modalButtonsContainer"></div>
+        </div>
+    </div>
 </div>
 
 <footer>
-
-<div class="footer-container">
-
-<div>
-<div class="footer-title">Portal B03</div>
-<p>Biblioteca digital da Turma B03 com livros da 11ª classe organizados para estudo.</p>
-</div>
-
-<div class="footer-links">
-<div class="footer-title">Links</div>
-<a href="#">Sobre Nós</a>
-<a href="#">Biblioteca</a>
-<a href="#">Contato</a>
-</div>
-
-<div class="footer-links">
-<div class="footer-title">Comunidade</div>
-<a href="https://wa.me/SEU_NUMERO" target="_blank">Canal WhatsApp</a>
-<a href="LINK_DO_GRUPO" target="_blank">Grupo Turma B03</a>
-</div>
-
-<div class="footer-links">
-<div class="footer-title">Legal</div>
-<span onclick="openLegal('Termos de Uso', 'Estes são os termos de uso do Portal B03. O conteúdo é estritamente educacional.')">Termos de Uso</span>
-<span onclick="openLegal('Política de Privacidade', 'Sua privacidade é importante. Não compartilhamos dados de acesso com terceiros.')">Política de Privacidade</span>
-</div>
-
-</div>
-
-<div class="footer-bottom">
-© 2026 Turma B03 — Portal Educacional
-</div>
-
+    <div class="footer-container">
+        <div>
+            <div class="footer-title">Portal B03</div>
+            <p>Biblioteca digital da Turma B03 com livros da 11ª classe organizados para estudo.</p>
+        </div>
+        <div class="footer-links">
+            <div class="footer-title">Links</div>
+            <span onclick="openSobre()">Sobre Nós</span>
+            <a href="#">Biblioteca</a>
+            <a href="https://whatsapp.com/channel/0029VbCU5a7ICVfrCi76io0f">Contato</a>
+        </div>
+        <div class="footer-links">
+            <div class="footer-title">Comunidade</div>
+            <a href="https://whatsapp.com/channel/0029VbCU5a7ICVfrCi76io0f" target="_blank">Canal WhatsApp</a>
+            <a href="https://chat.whatsapp.com/LMMyHJz6ILoHkVyg2yDilA?mode=gi_t" target="_blank">Grupo Turma B03</a>
+        </div>
+        <div class="footer-links">
+            <div class="footer-title">Legal</div>
+            <span onclick="openTermos()">Termos de Uso</span>
+            <span onclick="openPrivacidade()">Política de Privacidade</span>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        © 2026 Turma B03 — Portal Educacional. Powered by ARSADM Development Studio.
+    </div>
 </footer>
 
 <script>
-
 /* LOGIN */
-
 const contas=[
-{usuario:"Dercio",senha:"1234", logged:false},
-{usuario:"Turma",senha:"B03", logged:false},
+    {usuario:"Test", senha:"1234", logged:false},
+    {usuario:"Dercio", senha:"1234", logged:false},
+    {usuario:"Turma", senha:"B03", logged:false}
 ];
 
 loginForm.addEventListener("submit",function(e){
-e.preventDefault()
-const u=usuario.value
-const s=senha.value
-const ok=contas.find(c=>c.usuario===u && c.senha===s)
+    e.preventDefault()
+    const u=usuario.value
+    const s=senha.value
+    const ok=contas.find(c=>c.usuario===u && c.senha===s)
 
-if(ok){
-  if(ok.logged){
-    alert("Esta conta já está ativa em outro dispositivo!")
-    return
-  }
-  ok.logged = true
-  localStorage.setItem("currentUser", u)
-  loginPage.style.display="none"
-  bibliotecaPage.style.display="block"
-}else{
-  alert("Login inválido")
-}
+    if(ok){
+        if(ok.logged){
+            alert("Esta conta já está ativa em outro dispositivo!")
+            return
+        }
+        ok.logged = true
+        localStorage.setItem("currentUser", u)
+        loginPage.style.display="none"
+        bibliotecaPage.style.display="block"
+    }else{
+        alert("Login inválido")
+    }
 })
 
-/* LOGOUT */
 document.getElementById("logoutBtn").onclick=function(){
-const user = localStorage.getItem("currentUser")
-if(user){
-  const conta = contas.find(c=>c.usuario===user)
-  if(conta) conta.logged=false
-  localStorage.removeItem("currentUser")
-}
-bibliotecaPage.style.display="none"
-loginPage.style.display="flex"
+    const user = localStorage.getItem("currentUser")
+    if(user){
+        const conta = contas.find(c=>c.usuario===user)
+        if(conta) conta.logged=false
+        localStorage.removeItem("currentUser")
+    }
+    bibliotecaPage.style.display="none"
+    loginPage.style.display="flex"
 }
 
 /* LIVROS */
-
 const books=[
-
-{
-id:1,
-title:"Inglês da 11ª Classe",
-author:"Pre-universitário Longman – Moçambique 2010",
-seccao:"Ciencia e Letras",
-desc:"Livro de Inglês para 11ª Classe.",
-img:"https://livromoz.com/wp-content/uploads/2024/08/Imagem-WhatsApp-2024-08-17-as-23.34.17_8da4da33-224x300.jpg",
-download:"https://drive.usercontent.google.com/download?id=1Zq-Mq8r2ZVWwsXoqW4CYnIgmpe660b8h&export=download"
-},
-
-{
-id:2,
-title:"Biologia da 11ª Classe",
-author:"Pre-universitário Longman – Moçambique 2010",
-seccao:"Ciencia",
-desc:"Livro de Biologia para 11ª Classe.",
-img:"https://livromoz.com/wp-content/uploads/2024/08/IMG-20240817-WA0003-211x300.jpg",
-download:"https://drive.usercontent.google.com/download?id=1WfWA3DKojJS4X_yhfpuSYJJaTUWXo0YE&export=download"
-},
-
-{
-id:3,
-title:"Matemática da 11ª Classe",
-author:"Pre-universitário Longman – Moçambique 2010",
-seccao:"Ciencia e Letra",
-desc:"Livro de Matemática para 11ª Classe.",
-img:"https://mozpdf.com/wp-content/uploads/2025/07/Matematica-da-11a-Classe-Plural-Editores-%E2%80%93-Mocambique-2009-Livro-em-PDF-MozEstuda.com_-pdf.jpg",
-download:"https://drive.usercontent.google.com/download?id=1IZHns_x3ZpeshRI1ZU5hgTlZpJ19yGB2&export=download"
-},
-
-{
-id:4,
-title:"Física da 11ª Classe",
-author:"Pre-universitário Longman – Moçambique 2010",
-seccao:"Ciencia",
-desc:"Livro de Física para 11ª Classe.",
-img:"https://mozpdf.com/wp-content/uploads/2025/07/Fisica-da-11a-Classe-Texto-Editores-%E2%80%93-Mocambique-Livro-em-PDF-MozEstuda.com_-pdf.jpg",
-download:"https://drive.usercontent.google.com/download?id=1ZfaZnIa-2_v8V_NrWnGCJYwArL2Yi9us&export=download"
-},
-
-{
-id: 5,
-title: "Portugues da 11ª Classe",
-author:"Pre-universitário Longman – Moçambique 2010",
-seccao:"Ciencia e Letras",
-desc:"Livro de Portugues para 11ª Classe.",
-img:"https://mozpdf.com/wp-content/uploads/2025/07/Portugues-da-11a-Classe-Pre-universitario-Pearson-Mocambique-Livro-em-PDF-MozEstuda.com_-pdf.jpg",
-download:"https://drive.usercontent.google.com/download?id=1cfHjadZHgVl5AgrAq1eHB63n2wm0k7DC&export=download",
-},
-
-{
-id:6,
-title:"Frances da 11ª Classe",
-author:"Pre-universitário Longman – Moçambique 2010",
-seccao:"Letras",
-desc:"Livro de Frances para 11ª Classe.",
-img:"https://livros.mozestuda.com/wp-content/uploads/elementor/thumbs/Frances-11a-Classe-O-Meu-Caderno-de-Actividades-PDF-qvd06f1njrhitwisc7gywvdcaef21hwximxkqo69as.png",
-download:"https://drive.usercontent.google.com/download?id=16jl_6cWltSY7wQgrr-Yrv9hYI9H5D-Zj&export=download",
-},
-
-{
-id:7,
-title:"Filosofia da 11ª Classe",
-author:"Pre-universitário Longman – Moçambique 2010",
-seccao:"Ciencias e Letras",
-desc:"Livro de Filosofia para 11ª Classe.",
-img:"https://mozpdf.com/wp-content/uploads/2025/07/Filosofia-da-11a-Classe-Texto-Editores-%E2%80%93-Mocambique-Livro-em-PDF-MozEstuda.com_-pdf.jpg",
-download:"https://drive.usercontent.google.com/download?id=1gMNRGpqoJf6tWWn0z7-_wh2sEy7a_2ap&export=download",
-},
-
-{
-id:8,
-title:"Geografia da 11ª Classe",
-author:"Pre-universitário Longman – Moçambique 2010",
-seccao:"Letras",
-desc:"Livro de Geografia para 11ª Classe.",
-img:"https://livromoz.com/wp-content/uploads/2025/03/Livro10-224x300.jpg",
-download:"https://drive.usercontent.google.com/download?id=1v0BxlxuUuFPx7VPDMNHCXhZrf54fh1Ey&export=download",
-},
-
-{
-id:9,
-title:"Historia da 11ª Classe",
-author:"Pre-universitário Longman – Moçambique 2010",
-seccao:"Letras",
-desc:"Livro de Historia para 11ª Classe.",
-img:"https://livromoz.com/wp-content/uploads/2025/09/screenshot_20250911-144648-4137900404939631300083-215x300.jpg",
-download:"https://drive.usercontent.google.com/download?id=15-js0CDV_EqBEe_-YKx6aXaSK26ZA38i&export=download",
-},
-
-{
-id:10,
-title:"Quimica da 11ª Classe",
-author:"Pre-universitário Longman – Moçambique 2010",
-seccao:"Ciencias",
-desc:"Livro de Quimica para 11ª Classe.",
-img:"https://mozpdf.com/wp-content/uploads/2025/08/Quimica-da-11a-Classe-Texto-Editores-%E2%80%93-Mocambique-2007-Livro-em-PDF-pdf.jpg",
-download:"https://drive.usercontent.google.com/download?id=1Bx5T0QFdHPrOJMG1jEvCTp5m310F6IWj&export=download",
-},
-
-]
+    {
+        id:1,
+        title:"Inglês da 11ª Classe",
+        author:"Pre-universitário Longman – Moçambique 2010",
+        seccao:"Ciencia e Letras",
+        desc:"Livro de Inglês para 11ª Classe.",
+        img:"https://livromoz.com/wp-content/uploads/2024/08/Imagem-WhatsApp-2024-08-17-as-23.34.17_8da4da33-224x300.jpg",
+        download:"https://drive.usercontent.google.com/download?id=1Zq-Mq8r2ZVWwsXoqW4CYnIgmpe660b8h&export=download"
+    },
+    {
+        id:2,
+        title:"Biologia da 11ª Classe",
+        author:"Pre-universitário Longman – Moçambique 2010",
+        seccao:"Ciencia",
+        desc:"Livro de Biologia para 11ª Classe.",
+        img:"https://livromoz.com/wp-content/uploads/2024/08/IMG-20240817-WA0003-211x300.jpg",
+        download:"https://drive.usercontent.google.com/download?id=1WfWA3DKojJS4X_yhfpuSYJJaTUWXo0YE&export=download"
+    },
+    {
+        id:3,
+        title:"Matemática da 11ª Classe",
+        author:"Pre-universitário Longman – Moçambique 2010",
+        seccao:"Ciencia e Letra",
+        desc:"Livro de Matemática para 11ª Classe.",
+        img:"https://mozpdf.com/wp-content/uploads/2025/07/Matematica-da-11a-Classe-Plural-Editores-%E2%80%93-Mocambique-2009-Livro-em-PDF-MozEstuda.com_-pdf.jpg",
+        download:"https://drive.usercontent.google.com/download?id=1IZHns_x3ZpeshRI1ZU5hgTlZpJ19yGB2&export=download"
+    },
+    {
+        id:4,
+        title:"Física da 11ª Classe",
+        author:"Pre-universitário Longman – Moçambique 2010",
+        seccao:"Ciencia",
+        desc:"Livro de Física para 11ª Classe.",
+        img:"https://mozpdf.com/wp-content/uploads/2025/07/Fisica-da-11a-Classe-Texto-Editores-%E2%80%93-Mocambique-Livro-em-PDF-MozEstuda.com_-pdf.jpg",
+        download:"https://drive.usercontent.google.com/download?id=1ZfaZnIa-2_v8V_NrWnGCJYwArL2Yi9us&export=download"
+    },
+    {
+        id: 5,
+        title: "Portugues da 11ª Classe",
+        author:"Pre-universitário Longman – Moçambique 2010",
+        seccao:"Ciencia e Letras",
+        desc:"Livro de Portugues para 11ª Classe.",
+        img:"https://mozpdf.com/wp-content/uploads/2025/07/Portugues-da-11a-Classe-Pre-universitario-Pearson-Mocambique-Livro-em-PDF-MozEstuda.com_-pdf.jpg",
+        download:"https://drive.usercontent.google.com/download?id=1cfHjadZHgVl5AgrAq1eHB63n2wm0k7DC&export=download",
+    },
+    {
+        id:6,
+        title:"Frances da 11ª Classe",
+        author:"Pre-universitário Longman – Moçambique 2010",
+        seccao:"Letras",
+        desc:"Livro de Frances para 11ª Classe.",
+        img:"https://livros.mozestuda.com/wp-content/uploads/elementor/thumbs/Frances-11a-Classe-O-Meu-Caderno-de-Actividades-PDF-qvd06f1njrhitwisc7gywvdcaef21hwximxkqo69as.png",
+        download:"https://drive.usercontent.google.com/download?id=16jl_6cWltSY7wQgrr-Yrv9hYI9H5D-Zj&export=download",
+    },
+    {
+        id:7,
+        title:"Filosofia da 11ª Classe",
+        author:"Pre-universitário Longman – Moçambique 2010",
+        seccao:"Ciencias e Letras",
+        desc:"Livro de Filosofia para 11ª Classe.",
+        img:"https://mozpdf.com/wp-content/uploads/2025/07/Filosofia-da-11a-Classe-Texto-Editores-%E2%80%93-Mocambique-Livro-em-PDF-MozEstuda.com_-pdf.jpg",
+        download:"https://drive.usercontent.google.com/download?id=1gMNRGpqoJf6tWWn0z7-_wh2sEy7a_2ap&export=download",
+    },
+    {
+        id:8,
+        title:"Geografia da 11ª Classe",
+        author:"Pre-universitário Longman – Moçambique 2010",
+        seccao:"Letras",
+        desc:"Livro de Geografia para 11ª Classe.",
+        img:"https://livromoz.com/wp-content/uploads/2025/03/Livro10-224x300.jpg",
+        download:"https://drive.usercontent.google.com/download?id=1v0BxlxuUuFPx7VPDMNHCXhZrf54fh1Ey&export=download",
+    },
+    {
+        id:9,
+        title:"Historia da 11ª Classe",
+        author:"Pre-universitário Longman – Moçambique 2010",
+        seccao:"Letras",
+        desc:"Livro de Historia para 11ª Classe.",
+        img:"https://livromoz.com/wp-content/uploads/2025/09/screenshot_20250911-144648-4137900404939631300083-215x300.jpg",
+        download:"https://drive.usercontent.google.com/download?id=15-js0CDV_EqBEe_-YKx6aXaSK26ZA38i&export=download",
+    },
+    {
+        id:10,
+        title:"Quimica da 11ª Classe",
+        author:"Pre-universitário Longman – Moçambique 2010",
+        seccao:"Ciencias",
+        desc:"Livro de Quimica para 11ª Classe.",
+        img:"https://mozpdf.com/wp-content/uploads/2025/08/Quimica-da-11a-Classe-Texto-Editores-%E2%80%93-Mocambique-2007-Livro-em-PDF-pdf.jpg",
+        download:"https://drive.usercontent.google.com/download?id=1Bx5T0QFdHPrOJMG1jEvCTp5m310F6IWj&export=download",
+    },
+];
 
 const grid=document.getElementById("booksGrid")
+const modal=document.getElementById("modalOverlay")
+const btnContainer = document.getElementById("modalButtonsContainer")
 
 function renderBooks(list){
-grid.innerHTML=""
-list.forEach(book=>{
-  const card=document.createElement("div")
-  card.className="book-card"
-  card.innerHTML=`
-  <img src="${book.img}">
-  <div class="book-info">
-    <h3>${book.title}</h3>
-    <p>${book.author}</p>
-  </div>
-  `
-  card.onclick=()=>openModal(book)
-  grid.appendChild(card)
-})
+    grid.innerHTML=""
+    list.forEach(book=>{
+        const card=document.createElement("div")
+        card.className="book-card"
+        card.innerHTML=`
+        <img src="${book.img}">
+        <div class="book-info">
+            <h3>${book.title}</h3>
+            <p>${book.author}</p>
+        </div>
+        `
+        card.onclick=()=>openModal(book)
+        grid.appendChild(card)
+    })
 }
 
 renderBooks(books)
 
-/* BUSCA */
 searchInput.addEventListener("input",function(){
-const termo=this.value.toLowerCase()
-const filtrados=books.filter(book => book.title.toLowerCase().includes(termo) || book.author.toLowerCase().includes(termo) || book.seccao.toLowerCase().includes(termo) )
-renderBooks(filtrados)
+    const termo=this.value.toLowerCase()
+    const filtrados=books.filter(book => book.title.toLowerCase().includes(termo) || book.author.toLowerCase().includes(termo) || book.seccao.toLowerCase().includes(termo) )
+    renderBooks(filtrados)
 })
 
-/* MODAL */
-const modal=document.getElementById("modalOverlay")
-
-function openModal(book){
-modal.classList.add("active")
-modalCover.src = book.img
-modalCover.style.display = "inline-block"
-modalTitle.textContent=book.title
-modalAuthor.textContent=book.author
-modalCategory.textContent=book.seccao || "Geral"
-modalDesc.textContent=book.desc
-modalDownload.href=book.download
-modalDownload.style.display = book.download ? "inline-block" : "none"
+function resetModal() {
+    modalCover.style.display = "none"
+    modalSubInfo.innerHTML = ""
+    modalDesc.innerHTML = ""
+    btnContainer.innerHTML = ""
 }
 
-/* FUNÇÃO PARA MODAL LEGAL NO FOOTER */
-function openLegal(titulo, texto) {
-modal.classList.add("active")
-modalCover.style.display = "none"
-modalTitle.textContent = titulo
-modalAuthor.textContent = "Portal B03"
-modalCategory.textContent = "Informação Legal"
-modalDesc.textContent = texto
-modalDownload.style.display = "none"
+function openModal(book){
+    resetModal()
+    modal.classList.add("active")
+    modalCover.src = book.img
+    modalCover.style.display = "inline-block"
+    modalTitle.textContent=book.title
+    modalSubInfo.innerHTML = `<b>Autor:</b> ${book.author} | <b>Categoria:</b> ${book.seccao || "Geral"}`
+    modalDesc.textContent=book.desc
+    
+    if(book.download) {
+        const btn = document.createElement("a")
+        btn.className = "btn-download"
+        btn.href = book.download
+        btn.textContent = "Baixar PDF"
+        btn.setAttribute("download", "")
+        btnContainer.appendChild(btn)
+    }
+}
+
+/* FUNÇÕES DO FOOTER */
+function openTermos() {
+    resetModal()
+    modal.classList.add("active")
+    modalTitle.textContent = "Termos de Uso"
+    modalSubInfo.innerHTML = "Portal Educacional B03"
+    modalDesc.innerHTML = `
+        <p>1. <b>Uso Aceitável:</b> Este portal destina-se exclusivamente ao apoio acadêmico. O uso comercial dos materiais é proibido.</p>
+        <p>2. <b>Propriedade:</b> Os direitos dos livros pertencem aos seus respectivos autores e editoras.</p>
+        <p>3. <b>Responsabilidade:</b> Não nos responsabilizamos por falhas técnicas externas ao realizar downloads.</p>
+    `
+}
+
+function openPrivacidade() {
+    resetModal()
+    modal.classList.add("active")
+    modalTitle.textContent = "Política de Privacidade"
+    modalSubInfo.innerHTML = "Segurança de Dados"
+    modalDesc.innerHTML = `
+        <p>• <b>Dados Coletados:</b> Armazenamos apenas o seu nome de usuário localmente para manter sua sessão ativa.</p>
+        <p>• <b>Segurança:</b> Nenhuma informação pessoal ou senha é compartilhada com terceiros.</p>
+        <p>• <b>Cookies:</b> Utilizamos armazenamento local simples para melhorar sua experiência de navegação.</p>
+    `
+}
+
+function openSobre() {
+    resetModal()
+    modal.classList.add("active")
+    modalTitle.textContent = "Sobre a Turma B03"
+    modalSubInfo.innerHTML = "Inovação & Educação"
+    modalDesc.innerHTML = `
+        <p>A Turma B03 é um coletivo focado em facilitar o acesso à educação através da tecnologia.</p><br>
+        <p><b>Nossos Serviços:</b></p>
+        <p>• Desenvolvimento de Websites e Apps Profissionais</p>
+        <p>• Digitalização de Acervos Escolares</p>
+        <p>• Consultoria em TI e Design UI/UX</p>
+    `
+    const gBtn = document.createElement("a")
+    gBtn.className = "btn-action btn-blue"
+    gBtn.href = "https://chat.whatsapp.com/DkoIPmxqT1sEhWxLKRYyKf?mode=gi_t"
+    gBtn.target = "_blank"
+    gBtn.textContent = "Entrar no Grupo Oficial"
+    btnContainer.appendChild(gBtn)
+
+    const cBtn = document.createElement("a")
+    cBtn.className = "btn-action btn-whatsapp"
+    cBtn.href = "https://whatsapp.com/channel/0029VbCU5a7ICVfrCi76io0f"
+    cBtn.target = "_blank"
+    cBtn.textContent = "Acessar Nosso Canal"
+    btnContainer.appendChild(cBtn)
 }
 
 modalClose.onclick=()=>modal.classList.remove("active")
 modal.onclick=(e)=>{ if(e.target===modal) modal.classList.remove("active") }
-
 </script>
 
 </body>
